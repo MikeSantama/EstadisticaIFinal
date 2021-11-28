@@ -311,7 +311,7 @@ polygon.freq(tbl_plat, col="red", lwd=4)
 <div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
 
 <p>
-Gracias a la tabla y gráfica de frecuencias nos podemos dar cuenta de cual es la plataforma que más utilizan las personas que realizaron la encuesta para la ciencia de datos, como resultado nos dio el inciso 3, que en la tabla del dashboard nos muestra que el inciso 3 es ocupado por las "laptops" y esta es la plataforma más popular para el manejo de las ciencia de datos al rededor del mundo.
+Gracias a la tabla y gráfica de frecuencias nos podemos dar cuenta de cual es la plataforma que más utilizan las personas que realizaron la encuesta para la ciencia de datos, como resultado nos dio el inciso 3, que en la tabla del dashboard nos muestra que el inciso 3 es ocupado por las "laptops" y esta es la plataforma más popular para el manejo de las ciencia de datos en varios paises.
 </p>
 </div>
 
