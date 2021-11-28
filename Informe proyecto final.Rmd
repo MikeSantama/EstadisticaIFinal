@@ -38,8 +38,8 @@ library(magrittr)
 library(scales)
 library(grid)
 library(tidyr)
+library(sqldf)
 library(kableExtra)
-
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -247,17 +247,36 @@ Aquí vemos más a detalle el comportamiento de las acciones en la actualidad.
 ```
 </div>
 
-## Uso de las ciencias de datos en el mundo 
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Ciencia de datos 
 </div>
+
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+La ciencia de datos abarca multiples campos como es la estadistica, metodos cientificos, la inteligencia artificial y el analisis de datos para extraer el valor de los datos.
+Usamos una base de datos existente a partir de una encuesta con más de 25,000 encuestados que han estado involucrados de alguna manera con la ciencia de datos.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+## Uso de las ciencias de datos en el mundo 
+
 
 <div style="display:flex">
 
 <p>
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
+setwd("C:/Users/mitit/OneDrive - Universidad De La Salle Bajio/CIENCIAS DATOS/SurveyKaggle")
 datos<-read.csv("Base_Normalizada.csv")
-datos2<-read.csv("kaggle_survey_2021_responses2.csv")
-
+df_survey<-data.frame(datos)
 ```
 
 </p>
@@ -312,6 +331,123 @@ polygon.freq(tbl_plat, col="red", lwd=4)
 
 <p>
 Gracias a la tabla y gráfica de frecuencias nos podemos dar cuenta de cual es la plataforma que más utilizan las personas que realizaron la encuesta para la ciencia de datos, como resultado nos dio el inciso 3, que en la tabla del dashboard nos muestra que el inciso 3 es ocupado por las "laptops" y esta es la plataforma más popular para el manejo de las ciencia de datos en varios paises.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+
+</div>
+
+## Herramientas utilizadas para el analisis de datos
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+plataforma=datos %>%
+  mutate(Q11_Plataforma_Usada=ifelse(Q11_Plataforma_Usada==0,"NULL", 
+                                     ifelse(Q11_Plataforma_Usada==1,"A cloud computing",
+                                            ifelse(Q11_Plataforma_Usada==2,  "A deep learning workstation", 
+                                                   ifelse(Q11_Plataforma_Usada==3,"Laptop", 
+                                                          ifelse(Q11_Plataforma_Usada==4, "Personal computer", 
+                                                                 ifelse(Q11_Plataforma_Usada==5, "None", 
+                                                                        ifelse(Q11_Plataforma_Usada==6, "Other", "No tiene familiares con quien reunirse"))) )))))
+plataforma<-plataforma %>% filter(Q11_Plataforma_Usada!="NULL")
+tbl_plat1 = table(plataforma$Q11_Plataforma_Usada)
+df_plat1 = data.frame(tbl_plat1)
+colnames(df_plat1)=c("Plataformas","Total") 
+
+kable(df_plat1) %>%
+  kable_styling(c("striped", "bordered"))
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+Por medio de la tabla y el gráfico es sencillo observar que tipos de software se utilizan en mayor cantidad. Podemos apreciar que en mayor cantidad se utilizan los softwares enfocados a estadistica basica y a el desarrollo local, mientras que otros softwares especializados son menos utilizados.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+## Industria empleadora
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+halfup<-sqldf("SELECT Pais,Q20_Industria_Empleadora
+      FROM df_survey
+      WHERE Q25_Ganancia_USD >=25 AND Q20_Industria_Empleadora <> 0")
+
+halfup<- halfup %>% mutate(Q20_Industria_Empleadora==0, "NULL",
+                           ifelse(Q20_Industria_Empleadora==1, "Academics",
+                                  ifelse(Q20_Industria_Empleadora==2, "Finance",
+                                         ifelse(Q20_Industria_Empleadora==3, "Communications",
+                                                ifelse(Q20_Industria_Empleadora==4, "Technology",
+                                                       ifelse(Q20_Industria_Empleadora==5, "Mining/Energy",
+                                                              ifelse(Q20_Industria_Empleadora==6, "Goverment",
+                                                                     ifelse(Q20_Industria_Empleadora==7,"Entertainment",
+                                                                            ifelse(Q20_Industria_Empleadora==8, "Insurance",
+                                                                                   ifelse(Q20_Industria_Empleadora==9, "Manufacturing",
+                                                                                          ifelse(Q20_Industria_Empleadora==10, "Marketing",
+                                                                                                 ifelse(Q20_Industria_Empleadora==11, "Medical",
+                                                                                                        ifelse(Q20_Industria_Empleadora==12, "Military",
+                                                                                                               ifelse(Q20_Industria_Empleadora==13, "Service",
+                                                                                                                      ifelse(Q20_Industria_Empleadora==14, "Online business",
+                                                                                                                             ifelse(Q20_Industria_Empleadora==15, "Online service",
+                                                                                                                                    ifelse(Q20_Industria_Empleadora==16, "Other",
+                                                                                                                                           ifelse(Q20_Industria_Empleadora==17, "Sales",
+                                                                                                                                                  ifelse(Q20_Industria_Empleadora==18, "Transportation", "None")))))))))))))))))))
+halfup<-halfup %>% filter(Q20_Industria_Empleadora!="NULL")
+
+```
+
+### Tabla de personas encuestadas que ganan mas de 500,000 USD segun su industria empleadora
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl_gananacia = table(halfup$`ifelse(...)`)
+df_ganancia = data.frame(tbl_gananacia)
+colnames(df_ganancia)=c("Industria Empleadora","Total")
+kable(df_ganancia) %>%
+  kable_styling(c("striped", "bordered"))
+
+gganancia=plot_ly(df_ganancia, type = "pie", labels=~df_ganancia$`Industria Empleadora`, values=~df_ganancia$Total)
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+Existe una gran variedad de insudtrias en las cuales puede ser de utilidad un cientifico de datos, en esta tabla se especifica las personas que ganan 500,000USD o mas y en que industria se enfocaron.
+La industria en la que hay mas personas que ganan 500,000USD o mas son tecnologia y finanzas (Tomando en cuesta la muestra de las personas que ganan mas 500,000USD o mas).
+Posteriormente se observan los mismos datos enfocados en la cantidad de mujeres y de hombres que se encuentran en esta categoria, llegando a la conclusion de que existen menos mujeres que hombres dentro de las caracteristicas que se estan trabajando.
 </p>
 </div>
 
