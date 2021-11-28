@@ -38,6 +38,7 @@ library(magrittr)
 library(scales)
 library(grid)
 library(tidyr)
+library(kableExtra)
 
 ```
 
@@ -246,4 +247,76 @@ Aquí vemos más a detalle el comportamiento de las acciones en la actualidad.
 ```
 </div>
 
+## Uso de las ciencias de datos en el mundo 
+</div>
 
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
+datos<-read.csv("Base_Normalizada.csv")
+datos2<-read.csv("kaggle_survey_2021_responses2.csv")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl_pais = table(datos$Pais)
+df_pais = data.frame(tbl_pais)
+colnames(df_pais)=c("Paises","Total")
+kable(df_pais)%>%
+  kable_styling(c("striped", "bordered"))
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+Podemos apreciar en esta tabla creada por la consulta que fue hecha a casi 26,000 personas de diversos paises, la importancia que tienen hoy en día en todo tipo de industrias, obviamente como lo podemos apreciar en los porcentajes de la grafica que esta en el dashboard, hay una gran cantidad de países que aún no las implementan o no tienen la necesidad de utilizar las ciencias de datos en sus industrias.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+
+## Frecuencia de plataformas más utilizadas
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl_plat= graph.freq(datos$Q11_Plataforma_Usada, plot=T, col="Salmon")
+grid(col="lightgray")
+polygon.freq(tbl_plat, col="red", lwd=4)
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+Gracias a la tabla y gráfica de frecuencias nos podemos dar cuenta de cual es la plataforma que más utilizan las personas que realizaron la encuesta para la ciencia de datos, como resultado nos dio el inciso 3, que en la tabla del dashboard nos muestra que el inciso 3 es ocupado por las "laptops" y esta es la plataforma más popular para el manejo de las ciencia de datos al rededor del mundo.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
