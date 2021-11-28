@@ -250,9 +250,10 @@ Plataformas utilizadas
 ===
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
+setwd("C:/Users/mitit/OneDrive - Universidad De La Salle Bajio/CIENCIAS DATOS/SurveyKaggle")
+#setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
 datos<-read.csv("Base_Normalizada.csv")
-datos2<-read.csv("kaggle_survey_2021_responses2.csv")
+#datos2<-read.csv("kaggle_survey_2021_responses2.csv")
 df_survey<-data.frame(datos)
 ```
 
