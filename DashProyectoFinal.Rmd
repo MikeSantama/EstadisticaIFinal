@@ -245,17 +245,20 @@ chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021", subset = "2
             up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
 
 ```
+
+Plataformas utilizadas
+===
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 setwd("C:/Users/mitit/OneDrive - Universidad De La Salle Bajio/CIENCIAS DATOS/SurveyKaggle")
-#setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
+
 datos<-read.csv("Base_Normalizada.csv")
-#datos2<-read.csv("kaggle_survey_2021_responses2.csv")
 df_survey<-data.frame(datos)
 ```
 
+### Tabla de freciencias para las plataformas con mas uso para la ciencia de datos
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-#Plataforma utilizada
-#Base filtrada y con categorias mutadas
 plataforma=datos %>%
   mutate(Q11_Plataforma_Usada=ifelse(Q11_Plataforma_Usada==0,"NULL", 
                                      ifelse(Q11_Plataforma_Usada==1,"A cloud computing",
@@ -265,7 +268,20 @@ plataforma=datos %>%
                                                                  ifelse(Q11_Plataforma_Usada==5, "None", 
                                                                         ifelse(Q11_Plataforma_Usada==6, "Other", "No tiene familiares con quien reunirse"))) )))))
 plataforma<-plataforma %>% filter(Q11_Plataforma_Usada!="NULL")
+tbl_plat1 = table(plataforma$Q11_Plataforma_Usada)
+df_plat1 = data.frame(tbl_plat1)
+colnames(df_plat1)=c("Plataformas","Total") 
+kable(df_plat1) %>%
+  kable_styling(c("striped", "bordered"))
+```
 
+### Grafica de frecuencia con porcentajes 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl_plat= graph.freq(datos$Q11_Plataforma_Usada, plot=T, col="Salmon")
+grid(col="lightgray")
+polygon.freq(tbl_plat, col="red", lwd=4)
+```
 
 Herramientas para el analisis de datos
 ===
@@ -361,75 +377,26 @@ gganancia
 
 ```
 
-Uso de las ciencias de datos en el mundo
+Industria Empleadora
 ===
 
-### Tabla de paises con mayor inidice de practica en el analisis de datos
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-tbl_pais = table(datos$Pais)
-df_pais = data.frame(tbl_pais)
-colnames(df_pais)=c("Paises","Total")
-kable(df_pais)%>%
-  kable_styling(c("striped", "bordered"))
+#Sexo por industria empleadora
 
+industria_ganancia<- sqldf("SELECT Sexo,
+                           Q20_Industria_Empleadora,
+                           Pais
+                           FROM df_survey
+                           WHERE Q25_Ganancia_USD >=25 AND Q20_Industria_Empleadora <> 0")
+
+unidos<-cbind.data.frame(industria_ganancia, halfup)
+
+fig <- plot_ly(unidos, x = ~unidos$`ifelse(...)`,
+               y = ~unidos$Q20_Industria_Empleadora, type = 'bar', name = 'Hombres')
+fig <- fig %>% add_trace(y = ~Sexo, name = 'Mujeres')
+fig <- fig %>% layout(yaxis = list(title = ''),
+                      xaxis= list(title='Industrias'),
+                      barmode = 'stack')
+fig
 ```
-
-###Grafica con porcentajes sobre el total de paises encuestados 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-columna=datos$Pais
-tbl_columna=table(columna)
-p_tbl_columna=prop.table(tbl_columna)
-df_columna=data.frame(cbind(Absolutos=tbl_columna, Relativo=p_tbl_columna))
-plot_ly(df_columna, type='pie', labels=~rownames(df_columna), values=~df_columna$Absolutos)
-
-```
-
-
-
-Frecuencia de plataformas más utilizadas
-===
-
-### Tabla de freciencias para las plataformas con mas uso para la ciencia de datos
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-plataforma=datos %>%
-  mutate(Q11_Plataforma_Usada=ifelse(Q11_Plataforma_Usada==0,"NULL", 
-                                     ifelse(Q11_Plataforma_Usada==1,"A cloud computing",
-                                            ifelse(Q11_Plataforma_Usada==2,  "A deep learning workstation", 
-                                                   ifelse(Q11_Plataforma_Usada==3,"Laptop", 
-                                                          ifelse(Q11_Plataforma_Usada==4, "Personal computer", 
-                                                                 ifelse(Q11_Plataforma_Usada==5, "None", 
-                                                                        ifelse(Q11_Plataforma_Usada==6, "Other", "No tiene familiares con quien reunirse"))) )))))
-plataforma<-plataforma %>% filter(Q11_Plataforma_Usada!="NULL")
-
-tbl_plat1 = table(plataforma$Q11_Plataforma_Usada)
-df_plat1 = data.frame(tbl_plat1)
-colnames(df_plat1)=c("Plataformas","Total") 
-kable(df_plat1) %>%
-  kable_styling(c("striped", "bordered"))
-
-
-```
-
-### Grafica de frecuencia con porcentajes 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-tbl_plat= graph.freq(datos$Q11_Plataforma_Usada, plot=T, col="Salmon")
-grid(col="lightgray")
-polygon.freq(tbl_plat, col="red", lwd=4)
-
-```
-
-
-
-
-
-
-
-
-
 
