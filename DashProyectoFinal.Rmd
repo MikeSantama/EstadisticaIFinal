@@ -245,6 +245,27 @@ chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021", subset = "2
             up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
 
 ```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+setwd("C:/Users/mitit/OneDrive - Universidad De La Salle Bajio/CIENCIAS DATOS/SurveyKaggle")
+#setwd("C:/Users/mario/Desktop/5to SEMESTRE/ESTADÍSTICA")
+datos<-read.csv("Base_Normalizada.csv")
+#datos2<-read.csv("kaggle_survey_2021_responses2.csv")
+df_survey<-data.frame(datos)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Plataforma utilizada
+#Base filtrada y con categorias mutadas
+plataforma=datos %>%
+  mutate(Q11_Plataforma_Usada=ifelse(Q11_Plataforma_Usada==0,"NULL", 
+                                     ifelse(Q11_Plataforma_Usada==1,"A cloud computing",
+                                            ifelse(Q11_Plataforma_Usada==2,  "A deep learning workstation", 
+                                                   ifelse(Q11_Plataforma_Usada==3,"Laptop", 
+                                                          ifelse(Q11_Plataforma_Usada==4, "Personal computer", 
+                                                                 ifelse(Q11_Plataforma_Usada==5, "None", 
+                                                                        ifelse(Q11_Plataforma_Usada==6, "Other", "No tiene familiares con quien reunirse"))) )))))
+plataforma<-plataforma %>% filter(Q11_Plataforma_Usada!="NULL")
+
 
 Herramientas para el analisis de datos
 ===
