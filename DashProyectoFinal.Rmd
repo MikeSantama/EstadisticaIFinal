@@ -1,0 +1,251 @@
+---
+title: "Proyecto final"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(DT)
+library(readxl)
+library(knitr)
+library(flexdashboard)
+library(plotly)
+library(agricolae)
+library(quantmod)
+library(xts)
+library(XML)
+library(xml2)
+library(curl)
+library(Hmisc)
+library(foreign)
+library(zip)
+library(rvest)
+library(httr)
+library(jsonlite)
+library(lubridate)
+library(RColorBrewer)
+library(plotrix)
+library(readxl)
+library(PerformanceAnalytics)
+library(magrittr)
+library(scales)
+library(grid)
+library(tidyr)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Microsoft=getSymbols("MSFT", src= "yahoo", auto.assign = F) [,1:6]
+
+PrecioM=Microsoft$MSFT.Close
+promedioPrecioM=mean(PrecioM)
+medianaPrecioM=median(PrecioM)
+varianzaPrecioM=var(PrecioM)
+desviacionPrecioM=sd(PrecioM)
+
+```
+
+
+Microsoft
+===
+
+COLUMN
+---
+
+### Precios accionarios 2018
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Acciones 2018", subset = "2018-1::2018-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+### Precios accionarios 2019
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Acciones 2019", subset = "2019-1::2019-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+### Precios accionarios 2020
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Acciones 2020", subset = "2020-1::2020-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+
+COLUMN
+---
+
+### PRECIO PROMEDIO
+
+```{r}
+valueBox(round(promedioPrecioM,2), color="#C85C5C", icon = "fa-money-check")
+```
+
+### MEDIANA PROMEDIO
+
+```{r}
+valueBox(round(medianaPrecioM,2), color="#F9975D", icon= "fa-wifi")
+```
+
+### VARIANZA PROMEDIO
+
+```{r}
+valueBox(round(varianzaPrecioM,2), color="#FBD148", icon = "fa-pencil")
+```
+
+### DESVIACION ESTANDAR PROMEDIO
+
+```{r}
+valueBox(round(desviacionPrecioM,2), color="#B2EA70", icon= "fa-line-chart")
+```
+
+COLUMN
+---
+
+### Precios accionarios del periodo actual 2021
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Acciones 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+### Precios accionarios Octubre 2021 a la fecha
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Acciones 2021", subset = "2021-10::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+
+Apple
+===
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Apple=getSymbols("AAPL", src= "yahoo", auto.assign = F) [,1:6]
+
+
+PrecioA=Apple$AAPL.Close
+promedioPrecioA=mean(PrecioA)
+medianaPrecioA=median(PrecioA)
+varianzaPrecioA=var(PrecioA)
+desviacionPrecioA=sd(PrecioA)
+
+```
+
+ROW
+---
+
+### Precios accionarios 2018
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Acciones 2018", subset = "2018-1::2018-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+
+### Precios accionarios 2019
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Acciones 2019", subset = "2019-1::2019-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+
+### Precios accionarios 2020
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Acciones 2020", subset = "2020-1::2020-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+
+COLUMN
+---
+
+### PRECIO PROMEDIO
+
+```{r}
+valueBox(round(promedioPrecioA,2), color="#0F2C67", icon = "fa-money-check")
+```
+
+### MEDIANA PROMEDIO
+
+```{r}
+valueBox(round(medianaPrecioA,2), color="#CD1818", icon= "fa-wifi")
+```
+
+### VARIANZA PROMEDIO
+
+```{r}
+valueBox(round(varianzaPrecioA,2), color="#F3950D", icon = "fa-pencil")
+```
+
+### DESVIACION ESTANDAR PROMEDIO
+
+```{r}
+valueBox(round(desviacionPrecioA,2), color="#F4E185", icon= "fa-line-chart")
+```
+
+COLUMN
+---
+
+### Precios accionarios del periodo actual 2021
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Acciones 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+### Precios accionarios Octubre 2021 a la fecha
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Acciones 2021", subset = "2021-10::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+Microsoft vs Apple 
+===
+
+### Precios accionarios del periodo actual 2021 Microsoft
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+### Precios accionarios del periodo actual 2021 Apple
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+
+
+
+
+

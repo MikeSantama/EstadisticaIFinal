@@ -1,0 +1,249 @@
+---
+title: "Informe proyecto final"
+author: "Juliana Casillas <br> Adrian Garcia <br> Mario Aceves <br> Miguel Santamaría" 
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: leonids
+    highlight: github
+---
+
+```{r message=F, warning=F, echo=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(DT)
+library(readxl)
+library(knitr)
+library(flexdashboard)
+library(plotly)
+library(agricolae)
+library(quantmod)
+library(xts)
+library(XML)
+library(xml2)
+library(curl)
+library(Hmisc)
+library(foreign)
+library(zip)
+library(rvest)
+library(httr)
+library(jsonlite)
+library(lubridate)
+library(RColorBrewer)
+library(plotrix)
+library(readxl)
+library(PerformanceAnalytics)
+library(magrittr)
+library(scales)
+library(grid)
+library(tidyr)
+
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Microsoft=getSymbols("MSFT", src= "yahoo", auto.assign = F) [,1:6]
+
+Apple=getSymbols("AAPL", src= "yahoo", auto.assign = F) [,1:6]
+
+```
+
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Precios accionarios 2018 
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2018", subset = "2018-1::2018-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2018", subset = "2018-1::2018-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+En las gráficas del 2018 se puede observar un comportamiento similar en el precio de las acciones de las dos corporaciones, tomando en cuenta que los volúmenes y precios de las acciones de Microsoft son un poco más que el doble que las de Apple, pero a escala se precibe que que en las dos, hubo decaidas bastante abruptas por los meses de Febrero y Marzo, despues recuperandose y subiendo el precio hasta llegar a su punto más alto las dos en el mes de Ocutbre, con la diferencia que Apple sufrió una fuerte caida en el valor de sus acciones, que pasando el pico máximo en Octubre, con un valor mayor a 55 dolares por acción, termino el año con un valor de 39.43, más bajo que con el que empezo el año, mientras que Microsoft logro suavizar la caida del valor, pasando de más de 115 dolares por acción a terminar el año con un valor de 101.57.
+<br>
+<font color="#CD1818"> **La linea roja bajo las gráficas representa el ROC("Rate of change") que es un Oscilador de Momento que representa, mediante una tasa, los cambios en los precios entre dos períodos de las acciones.</font>
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Precios accionarios 2019 
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2019", subset = "2019-1::2019-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2019", subset = "2019-1::2019-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+En las gráficas se puede observar que tanto Microsoft como Apple obtuvieron un gran incremento en las acciones a lo largo del 2019, siendo un año con bastante crecimiento económico, podemos observar también que las dos corporaciones sufriefon una pequeña decaida en sus acciones en los meses Mayo y Junio, pero en Julio empezaron a recuperarse, siendo Microsoft la que subió sus precios accionarios de manera más rapida, mientras que a Apple le coso un poco más pero ambas terminando el año de forma favorable, con un valor por accion de 157.69 para Microsoft, y 73.41 para Apple 
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Precios accionarios 2020 
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2020", subset = "2020-1::2020-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2020", subset = "2020-1::2020-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC()")
+
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+En las gráficas del 2020 podemos ver que Microsoft comenzó de una mejor manera el año, teniendo un despunte entre los meses de Febrero y Marzo, mientras que Apple se mantuvo estable sin muchos cambios en ese periodo, también se puede observar una caida en las acciones por parte de las dos corporaciones casi llegando al mes de Abril, siendo mas marcada esta en Microsoft, debido a que sus acciones habian subido bastante los meses anteriores; a partir de ahí las dos empiean a subir en el mercado, alcanzando las dos su pico en Septiembre, donde a partir de ahí se estabilizan y terminan el año casi retomando el pico que habian tenido en Septiembre, donde Apple casi logro duplicar el precio accionario con el que termino el año pasado. Cabe recalcar que podemos apreciar un ROC muy cambiante en las dos corporaciones por el mes de Marzo.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Precios accionarios del año vigente 
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021", subset = "2021-1::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+En las gráficas de lo que va del 2021 podemos apreciar un comportamiento mucho más volatil en las acciones de Apple, mientras que las de Microsoft han estado mucho más estables, pero aunque ha sido asi, podemos ver que en los meses donde ha bajado Microsoft, se puede notar igual por parte de Apple, pero de una manera mas violenta, Microsoft en lo que va de este año ha logrado subir sus acciones de un valor de 220 aprox al principio del año, a 340 dolares en la actualidad, mientras que Apple solo ha podido subir su valor de 130 aprox a 160 dolares por accion actualmente, observando que las bandas de Bollinger parecen predecir una variabilidad mayor en las acciones de Apple que vienen.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+<div style = "text-align:justify; padding:7px; color:#0F2C67" >
+## Precios accionarios de Octubre a la actualidad
+</div>
+
+<div style="display:flex">
+
+<p>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2021-10", subset = "2021-10::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+</p>
+<p style="margin-left: 5%">
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021-10", subset = "2021-10::2021-12", 
+            up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+</p>
+</div>
+
+<div style = "text-align:justify; background:#F4E185; padding:7px; color:black; font-size: 15px; margin-bottom: 20px">
+
+<p>
+Aquí vemos más a detalle el comportamiento de las acciones en la actualidad.
+</p>
+</div>
+
+<div style = "color:white; background:#F3950D; width:30%; text-align:center; padding:10px; margin-left:35%">
+```{r message=F, warning=F, echo=FALSE}
+# separador naranja
+```
+</div>
+
+
