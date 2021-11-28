@@ -36,6 +36,8 @@ library(magrittr)
 library(scales)
 library(grid)
 library(tidyr)
+library(sqldf)
+library(kableExtra)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -241,6 +243,153 @@ chartSeries(Microsoft, theme = chartTheme("white"), name = "Microsoft 2021", sub
 
 chartSeries(Apple, theme = chartTheme("white"), name = "Apple 2021", subset = "2021-1::2021-12", 
             up.col = "blue", dn.col = "red", TA= "addROC(); addBBands()")
+
+```
+
+Plataformas utilizadas
+===
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+setwd("C:/Users/mitit/OneDrive - Universidad De La Salle Bajio/CIENCIAS DATOS/SurveyKaggle")
+
+datos<-read.csv("Base_Normalizada.csv")
+df_survey<-data.frame(datos)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#Plataforma utilizada
+
+#Base filtrada y con categorias mutadas
+
+plataforma=datos %>%
+  mutate(Q11_Plataforma_Usada=ifelse(Q11_Plataforma_Usada==0,"NULL", 
+                                     ifelse(Q11_Plataforma_Usada==1,"A cloud computing",
+                                            ifelse(Q11_Plataforma_Usada==2,  "A deep learning workstation", 
+                                                   ifelse(Q11_Plataforma_Usada==3,"Laptop", 
+                                                          ifelse(Q11_Plataforma_Usada==4, "Personal computer", 
+                                                                 ifelse(Q11_Plataforma_Usada==5, "None", 
+                                                                        ifelse(Q11_Plataforma_Usada==6, "Other", "No tiene familiares con quien reunirse"))) )))))
+plataforma<-plataforma %>% filter(Q11_Plataforma_Usada!="NULL")
+
+#Tabla de totales
+
+tbl_plataforma = table(plataforma$Q11_Plataforma_Usada)
+df_plataforma = data.frame(tbl_plataforma)
+colnames(df_plataforma)=c("Plataformas","Total") 
+
+#Grafica 
+
+g_plataforma=plot_ly(df_plataforma, type = "bar",
+                     x=df_plataforma$Plataformas,
+                     y=df_plataforma$Total,
+                     color = df_plataforma$Plataformas) %>% 
+  layout(title="Plataforma usada", xaxis=list(title="Plataformas"))
+```
+
+### Tabla plataformas utilizadas
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+kable(df_plataforma) %>%
+  kable_styling(c("striped", "bordered"))
+```
+
+### Grafico de plataformas utilizdas 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+g_plataforma
+```
+
+Herramientas para el analisis de datos
+===
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+herramientas=datos %>%
+  mutate(Q41_Herramienta_Esencial_Analisis_Datos=ifelse(Q41_Herramienta_Esencial_Analisis_Datos==0,"NULL", 
+                                     ifelse(Q41_Herramienta_Esencial_Analisis_Datos==1,"Advanced statistical software",
+                                            ifelse(Q41_Herramienta_Esencial_Analisis_Datos==2, "Basic statistical software", 
+                                                   ifelse(Q41_Herramienta_Esencial_Analisis_Datos==3,"Business intelligence software", 
+                                                          ifelse(Q41_Herramienta_Esencial_Analisis_Datos==4, "Clous-based data software & APIs", 
+                                                                 ifelse(Q41_Herramienta_Esencial_Analisis_Datos==5, "Local development enviroment", 
+                                                                        ifelse(Q41_Herramienta_Esencial_Analisis_Datos==6, "Other", "No tiene familiares con quien reunirse"))) )))))
+herramientas<-herramientas %>% filter(Q41_Herramienta_Esencial_Analisis_Datos!="NULL")
+
+#Tabla de totales
+
+tbl_herramientas = table(herramientas$Q41_Herramienta_Esencial_Analisis_Datos)
+df_herramientas = data.frame(tbl_herramientas)
+colnames(df_herramientas)=c("Herramienta","Total") 
+
+#Grafica 
+
+g_herramientas=plot_ly(df_herramientas, type = "bar",
+                     x=df_herramientas$Herramienta,
+                     y=df_herramientas$Total,
+                     color = df_herramientas$Herramienta) %>% 
+  layout(title="Herramienta utilizada", xaxis=list(title="Herramientas"))
+
+```
+
+### Tabla herramientas utilizadas
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+kable(df_herramientas) %>%
+  kable_styling(c("striped", "bordered"))
+```
+
+### Grafica de herramientas utilizadas
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+g_herramientas
+```
+
+Ganancia por industria
+===
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+halfup<-sqldf("SELECT Pais,Q20_Industria_Empleadora
+      FROM df_survey
+      WHERE Q25_Ganancia_USD >=25 AND Q20_Industria_Empleadora <> 0")
+
+halfup<- halfup %>% mutate(Q20_Industria_Empleadora==0, "NULL",
+                           ifelse(Q20_Industria_Empleadora==1, "Academics",
+                                  ifelse(Q20_Industria_Empleadora==2, "Finance",
+                                         ifelse(Q20_Industria_Empleadora==3, "Communications",
+                                                ifelse(Q20_Industria_Empleadora==4, "Technology",
+                                                       ifelse(Q20_Industria_Empleadora==5, "Mining/Energy",
+                                                              ifelse(Q20_Industria_Empleadora==6, "Goverment",
+                                                                     ifelse(Q20_Industria_Empleadora==7,"Entertainment",
+                                                                            ifelse(Q20_Industria_Empleadora==8, "Insurance",
+                                                                                   ifelse(Q20_Industria_Empleadora==9, "Manufacturing",
+                                                                                          ifelse(Q20_Industria_Empleadora==10, "Marketing",
+                                                                                                 ifelse(Q20_Industria_Empleadora==11, "Medical",
+                                                                                                        ifelse(Q20_Industria_Empleadora==12, "Military",
+                                                                                                               ifelse(Q20_Industria_Empleadora==13, "Service",
+                                                                                                                      ifelse(Q20_Industria_Empleadora==14, "Online business",
+                                                                                                                             ifelse(Q20_Industria_Empleadora==15, "Online service",
+                                                                                                                                    ifelse(Q20_Industria_Empleadora==16, "Other",
+                                                                                                                                           ifelse(Q20_Industria_Empleadora==17, "Sales",
+                                                                                                                                                  ifelse(Q20_Industria_Empleadora==18, "Transportation", "None")))))))))))))))))))
+halfup<-halfup %>% filter(Q20_Industria_Empleadora!="NULL")
+
+```
+
+### Tabla de personas encuestadas que ganan mas de 500,000 USD segun su industria empleadora
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+tbl_gananacia = table(halfup$`ifelse(...)`)
+df_ganancia = data.frame(tbl_gananacia)
+colnames(df_ganancia)=c("Industria Empleadora","Total")
+kable(df_ganancia) %>%
+  kable_styling(c("striped", "bordered"))
+
+gganancia=plot_ly(df_ganancia, type = "pie", labels=~df_ganancia$`Industria Empleadora`, values=~df_ganancia$Total)
+
+```
+
+###Grafica con porcentajes sobre el total de personas encuestadas que ganan mas de 500,00 USD
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+gganancia
 
 ```
 
